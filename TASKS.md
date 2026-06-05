@@ -2,12 +2,12 @@
 
 ## Milestone 0: Project Skeleton
 
-- [ ] Create `go.mod` with module `github.com/vichr-vita/notion-sdk-go` and `go 1.22`.
-- [ ] Add root package `notion`.
-- [ ] Add base files: `client.go`, `request.go`, `errors.go`, `pagination.go`, `models.go`.
-- [ ] Add service files: `pages.go`, `blocks.go`, `data_sources.go`, `databases.go`, `search.go`, `users.go`, `comments.go`, `file_uploads.go`, `custom_emojis.go`.
-- [ ] Add test helper for fake `http.RoundTripper`.
-- [ ] Add `testify` dependency.
+- [x] Create `go.mod` with module `github.com/vichr-vita/notion-sdk-go` and `go 1.22`.
+- [x] Add root package `notion`.
+- [x] Add base files: `client.go`, `request.go`, `errors.go`, `pagination.go`, `models.go`.
+- [x] Add service files: `pages.go`, `blocks.go`, `data_sources.go`, `databases.go`, `search.go`, `users.go`, `comments.go`, `file_uploads.go`, `custom_emojis.go`.
+- [x] Add test helper for fake `http.RoundTripper`.
+- [x] Add `testify` dependency.
 
 ## Milestone 1: Client Core
 
