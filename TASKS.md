@@ -146,12 +146,12 @@
 
 ## Milestone 11: Databases Service
 
-- [ ] Verify legacy Databases endpoints against Notion reference.
-- [ ] Add `Databases.Get(ctx, databaseID)`.
-- [ ] Add compatibility methods required by current reference.
-- [ ] Mark service docs as legacy/compatibility surface.
-- [ ] Avoid silent aliasing to Data Sources.
-- [ ] Test methods independently from Data Sources.
+- [x] Verify legacy Databases endpoints against Notion reference.
+- [x] Add `Databases.Get(ctx, databaseID)`.
+- [x] Add compatibility methods required by current reference.
+- [x] Mark service docs as legacy/compatibility surface.
+- [x] Avoid silent aliasing to Data Sources.
+- [x] Test methods independently from Data Sources.
 
 ## Milestone 12: Users Service
 
