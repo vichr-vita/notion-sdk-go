@@ -39,3 +39,31 @@ func TestNullableResponseFieldsDecodeToNilPointers(t *testing.T) {
 	require.Nil(t, page.Icon)
 	require.Nil(t, page.PublicURL)
 }
+
+func TestOptionalRequestFieldsOmitEmptyValues(t *testing.T) {
+	body := struct {
+		RichText []RichTextObject `json:"rich_text,omitempty"`
+	}{
+		RichText: []RichTextObject{
+			{
+				Type: "text",
+				Text: &TextContent{Content: "hello"},
+			},
+		},
+	}
+
+	data, err := json.Marshal(body)
+	require.NoError(t, err)
+	require.JSONEq(t, `{
+		"rich_text": [
+			{
+				"type": "text",
+				"text": {
+					"content": "hello"
+				}
+			}
+		]
+	}`, string(data))
+	require.NotContains(t, string(data), `"href":null`)
+	require.NotContains(t, string(data), `"link":null`)
+}

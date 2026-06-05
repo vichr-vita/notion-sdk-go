@@ -167,7 +167,7 @@ type CustomEmoji struct {
 type RichTextObject struct {
 	Type        string          `json:"type,omitempty"`
 	PlainText   string          `json:"plain_text,omitempty"`
-	Href        *string         `json:"href"`
+	Href        *string         `json:"href,omitempty"`
 	Annotations *Annotations    `json:"annotations,omitempty"`
 	Text        *TextContent    `json:"text,omitempty"`
 	Mention     json.RawMessage `json:"mention,omitempty"`
@@ -178,7 +178,7 @@ type RichTextObject struct {
 // TextContent contains plain rich text content.
 type TextContent struct {
 	Content string `json:"content,omitempty"`
-	Link    *Link  `json:"link"`
+	Link    *Link  `json:"link,omitempty"`
 }
 
 // Link contains a rich text link URL.
