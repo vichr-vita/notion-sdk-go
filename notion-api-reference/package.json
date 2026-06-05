@@ -1,0 +1,19 @@
+{
+  "name": "notion-api-reference",
+  "module": "src/cli.ts",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "scrape": "bun run src/cli.ts scrape",
+    "build:spec": "bun run src/cli.ts build",
+    "test": "bun test"
+  },
+  "dependencies": {
+    "cheerio": "^1.2.0",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "typescript": "^5"
+  }
+}
