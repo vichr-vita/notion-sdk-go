@@ -41,18 +41,18 @@
 
 ## Milestone 3: Errors
 
-- [ ] Create `APIError`.
-- [ ] Include `StatusCode`.
-- [ ] Include Notion error `Code`.
-- [ ] Include Notion error `Message`.
-- [ ] Include `RequestID`.
-- [ ] Include response body snippet.
-- [ ] Parse Notion error JSON when possible.
-- [ ] Preserve network errors as normal Go errors.
-- [ ] Preserve JSON decode errors as normal Go errors.
-- [ ] Test structured Notion error parsing.
-- [ ] Test malformed error body fallback.
-- [ ] Test `errors.As` with `*APIError`.
+- [x] Create `APIError`.
+- [x] Include `StatusCode`.
+- [x] Include Notion error `Code`.
+- [x] Include Notion error `Message`.
+- [x] Include `RequestID`.
+- [x] Include response body snippet.
+- [x] Parse Notion error JSON when possible.
+- [x] Preserve network errors as normal Go errors.
+- [x] Preserve JSON decode errors as normal Go errors.
+- [x] Test structured Notion error parsing.
+- [x] Test malformed error body fallback.
+- [x] Test `errors.As` with `*APIError`.
 
 ## Milestone 4: Retries
 
