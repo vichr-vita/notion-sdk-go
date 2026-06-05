@@ -88,7 +88,7 @@
 - [x] Use pointer fields for nullable responses.
 - [x] Use `omitempty` for optional request fields.
 - [x] Preserve `json.RawMessage` on major models where useful.
-- [ ] Add union-friendly discriminator fields.
+- [x] Add union-friendly discriminator fields.
 - [ ] Implement `Title(string)`.
 - [ ] Implement `RichText(string)`.
 - [ ] Implement `PageParent(string)`.

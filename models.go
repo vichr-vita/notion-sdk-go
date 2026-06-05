@@ -70,6 +70,7 @@ type Block struct {
 	Archived       bool            `json:"archived"`
 	InTrash        bool            `json:"in_trash"`
 	Type           string          `json:"type,omitempty"`
+	Content        json.RawMessage `json:"-"`
 	Raw            json.RawMessage `json:"-"`
 }
 
@@ -221,6 +222,13 @@ func (b *Block) UnmarshalJSON(data []byte) error {
 	var v blockAlias
 	if err := unmarshalWithRaw(data, &v, &v.Raw); err != nil {
 		return err
+	}
+	if v.Type != "" {
+		var fields map[string]json.RawMessage
+		if err := json.Unmarshal(data, &fields); err != nil {
+			return err
+		}
+		v.Content = append(v.Content[:0], fields[v.Type]...)
 	}
 	*b = Block(v)
 	return nil

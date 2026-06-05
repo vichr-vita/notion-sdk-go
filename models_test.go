@@ -124,6 +124,42 @@ func TestMajorModelsPreserveRawJSON(t *testing.T) {
 	}
 }
 
+func TestBlockPreservesDiscriminatedContent(t *testing.T) {
+	var block Block
+	require.NoError(t, json.Unmarshal([]byte(`{
+		"object": "block",
+		"id": "block_a",
+		"created_time": "2026-03-11T00:00:00Z",
+		"last_edited_time": "2026-03-11T00:00:00Z",
+		"has_children": false,
+		"archived": false,
+		"in_trash": false,
+		"type": "paragraph",
+		"paragraph": {
+			"rich_text": [
+				{
+					"type": "text",
+					"text": {
+						"content": "hello"
+					}
+				}
+			]
+		}
+	}`), &block))
+
+	require.Equal(t, "paragraph", block.Type)
+	require.JSONEq(t, `{
+		"rich_text": [
+			{
+				"type": "text",
+				"text": {
+					"content": "hello"
+				}
+			}
+		]
+	}`, string(block.Content))
+}
+
 func rawMessageFromModel(t *testing.T, model any) json.RawMessage {
 	t.Helper()
 
