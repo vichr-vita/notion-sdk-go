@@ -69,7 +69,7 @@
 
 ## Milestone 5: Pagination
 
-- [ ] Create `Pagination` request struct.
+- [x] Create `Pagination` request struct.
 - [ ] Create generic paginated response shell.
 - [ ] Support `start_cursor`.
 - [ ] Support `page_size`.
