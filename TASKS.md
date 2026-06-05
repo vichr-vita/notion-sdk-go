@@ -98,14 +98,14 @@
 
 ## Milestone 7: Search Service
 
-- [ ] Verify Search endpoint against Notion reference.
-- [ ] Add `SearchService`.
-- [ ] Add `Search.Query(ctx, SearchRequest)`.
-- [ ] Model query, filter, sort, pagination fields.
-- [ ] Return typed paginated search response with raw objects.
-- [ ] Test request method, path, body, auth, version.
-- [ ] Test response decoding.
-- [ ] Test API error handling through service.
+- [x] Verify Search endpoint against Notion reference.
+- [x] Add `SearchService`.
+- [x] Add `Search.Query(ctx, SearchRequest)`.
+- [x] Model query, filter, sort, pagination fields.
+- [x] Return typed paginated search response with raw objects.
+- [x] Test request method, path, body, auth, version.
+- [x] Test response decoding.
+- [x] Test API error handling through service.
 
 ## Milestone 8: Blocks Service
 
