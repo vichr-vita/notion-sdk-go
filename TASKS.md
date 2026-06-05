@@ -73,7 +73,7 @@
 - [x] Create generic paginated response shell.
 - [x] Support `start_cursor`.
 - [x] Support `page_size`.
-- [ ] Support `has_more`.
+- [x] Support `has_more`.
 - [ ] Support `next_cursor`.
 - [ ] Implement iterator-style helpers for endpoint pages.
 - [ ] Optionally implement generic `All(ctx, firstPageFn)`.
