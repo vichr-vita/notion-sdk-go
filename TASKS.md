@@ -122,15 +122,15 @@
 
 ## Milestone 9: Pages Service
 
-- [ ] Verify Pages endpoints against Notion reference.
-- [ ] Add `Pages.Get(ctx, pageID)`.
-- [ ] Add `Pages.Create(ctx, CreatePageRequest)`.
-- [ ] Add `Pages.Update(ctx, pageID, UpdatePageRequest)`.
-- [ ] Add property item retrieval if in V0 reference scope.
-- [ ] Add page markdown endpoint support.
-- [ ] Test each method path and HTTP verb.
-- [ ] Test create parent/property body.
-- [ ] Test markdown response handling.
+- [x] Verify Pages endpoints against Notion reference.
+- [x] Add `Pages.Get(ctx, pageID)`.
+- [x] Add `Pages.Create(ctx, CreatePageRequest)`.
+- [x] Add `Pages.Update(ctx, pageID, UpdatePageRequest)`.
+- [x] Add property item retrieval if in V0 reference scope.
+- [x] Add page markdown endpoint support.
+- [x] Test each method path and HTTP verb.
+- [x] Test create parent/property body.
+- [x] Test markdown response handling.
 
 ## Milestone 10: Data Sources Service
 
