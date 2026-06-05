@@ -134,15 +134,15 @@
 
 ## Milestone 10: Data Sources Service
 
-- [ ] Verify Data Sources endpoints against Notion reference.
-- [ ] Add `DataSources.Get(ctx, dataSourceID)`.
-- [ ] Add `DataSources.Query(ctx, dataSourceID, QueryDataSourceRequest)`.
-- [ ] Add `DataSources.Create(ctx, CreateDataSourceRequest)`.
-- [ ] Add `DataSources.Update(ctx, dataSourceID, UpdateDataSourceRequest)`.
-- [ ] Model filters and sorts flexibly with raw JSON or `any`.
-- [ ] Test query pagination.
-- [ ] Test create/update body encoding.
-- [ ] Test docs/examples prefer data sources.
+- [x] Verify Data Sources endpoints against Notion reference.
+- [x] Add `DataSources.Get(ctx, dataSourceID)`.
+- [x] Add `DataSources.Query(ctx, dataSourceID, QueryDataSourceRequest)`.
+- [x] Add `DataSources.Create(ctx, CreateDataSourceRequest)`.
+- [x] Add `DataSources.Update(ctx, dataSourceID, UpdateDataSourceRequest)`.
+- [x] Model filters and sorts flexibly with raw JSON or `any`.
+- [x] Test query pagination.
+- [x] Test create/update body encoding.
+- [x] Test docs/examples prefer data sources.
 
 ## Milestone 11: Databases Service
 
