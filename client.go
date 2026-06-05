@@ -10,11 +10,19 @@ const (
 // Option configures a Client.
 type Option func(*clientConfig)
 
+// RequestHook runs after a request is built and before it is sent.
+type RequestHook func(*http.Request) error
+
+// ResponseHook runs after a response is received and before it is decoded.
+type ResponseHook func(*http.Response) error
+
 type clientConfig struct {
-	token      string
-	baseURL    string
-	version    string
-	httpClient *http.Client
+	token        string
+	baseURL      string
+	version      string
+	httpClient   *http.Client
+	requestHook  RequestHook
+	responseHook ResponseHook
 }
 
 // Client is the root Notion API client.
@@ -83,5 +91,19 @@ func WithVersion(version string) Option {
 		if version != "" {
 			cfg.version = version
 		}
+	}
+}
+
+// WithRequestHook sets a hook that runs before API requests are sent.
+func WithRequestHook(hook RequestHook) Option {
+	return func(cfg *clientConfig) {
+		cfg.requestHook = hook
+	}
+}
+
+// WithResponseHook sets a hook that runs before API responses are decoded.
+func WithResponseHook(hook ResponseHook) Option {
+	return func(cfg *clientConfig) {
+		cfg.responseHook = hook
 	}
 }

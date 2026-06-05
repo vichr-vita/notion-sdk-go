@@ -25,19 +25,19 @@
 
 ## Milestone 2: Request Pipeline
 
-- [ ] Implement shared request builder.
-- [ ] Add `Authorization: Bearer <token>` header.
-- [ ] Add `Notion-Version` header.
-- [ ] Add JSON request encoding.
-- [ ] Add JSON response decoding.
-- [ ] Add empty-body handling.
-- [ ] Add query parameter encoding for pagination and endpoint filters.
-- [ ] Add `RequestHook`.
-- [ ] Add `ResponseHook`.
-- [ ] Implement `WithRequestHook`.
-- [ ] Implement `WithResponseHook`.
-- [ ] Test method, path, query, headers, and body.
-- [ ] Test hooks fire with expected request/response.
+- [x] Implement shared request builder.
+- [x] Add `Authorization: Bearer <token>` header.
+- [x] Add `Notion-Version` header.
+- [x] Add JSON request encoding.
+- [x] Add JSON response decoding.
+- [x] Add empty-body handling.
+- [x] Add query parameter encoding for pagination and endpoint filters.
+- [x] Add `RequestHook`.
+- [x] Add `ResponseHook`.
+- [x] Implement `WithRequestHook`.
+- [x] Implement `WithResponseHook`.
+- [x] Test method, path, query, headers, and body.
+- [x] Test hooks fire with expected request/response.
 
 ## Milestone 3: Errors
 
