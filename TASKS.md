@@ -76,7 +76,7 @@
 - [x] Support `has_more`.
 - [x] Support `next_cursor`.
 - [x] Implement iterator-style helpers for endpoint pages.
-- [ ] Optionally implement generic `All(ctx, firstPageFn)`.
+- [x] Optionally implement generic `All(ctx, firstPageFn)`.
 - [x] Test manual pagination query fields.
 - [x] Test iterator stops on `has_more=false`.
 - [x] Test iterator returns callback error.

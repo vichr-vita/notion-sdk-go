@@ -127,3 +127,34 @@ func TestForEachPaginatedReturnsCallbackError(t *testing.T) {
 	require.ErrorIs(t, err, wantErr)
 	require.Equal(t, 1, calls)
 }
+
+func TestAllCollectsEveryPaginatedResult(t *testing.T) {
+	cursorB := "cursor_b"
+	calls := 0
+
+	results, err := All(context.Background(), func(_ context.Context, pagination *Pagination) (*PaginatedResponse[string], error) {
+		calls++
+
+		switch calls {
+		case 1:
+			require.Nil(t, pagination)
+			return &PaginatedResponse[string]{
+				Results:    []string{"a", "b"},
+				HasMore:    true,
+				NextCursor: &cursorB,
+			}, nil
+		case 2:
+			require.Equal(t, "cursor_b", pagination.StartCursor)
+			return &PaginatedResponse[string]{
+				Results: []string{"c"},
+			}, nil
+		default:
+			t.Fatalf("unexpected page call %d", calls)
+			return nil, nil
+		}
+	})
+
+	require.NoError(t, err)
+	require.Equal(t, []string{"a", "b", "c"}, results)
+	require.Equal(t, 2, calls)
+}

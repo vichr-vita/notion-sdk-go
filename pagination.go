@@ -26,6 +26,19 @@ type PageFunc[T any] func(context.Context, *Pagination) (*PaginatedResponse[T], 
 // EachFunc handles one paginated result.
 type EachFunc[T any] func(T) error
 
+// All collects every result from a cursor-based endpoint.
+func All[T any](ctx context.Context, pageFn PageFunc[T]) ([]T, error) {
+	var results []T
+	err := ForEachPaginated(ctx, nil, pageFn, func(result T) error {
+		results = append(results, result)
+		return nil
+	})
+	if err != nil {
+		return nil, err
+	}
+	return results, nil
+}
+
 // ForEachPaginated iterates through every result from a cursor-based endpoint.
 func ForEachPaginated[T any](ctx context.Context, pagination *Pagination, pageFn PageFunc[T], each EachFunc[T]) error {
 	if pageFn == nil {
