@@ -83,7 +83,7 @@
 
 ## Milestone 6: Common Models and Helpers
 
-- [ ] Define common object fields for pages, blocks, users, comments, data sources, databases, files, custom emojis.
+- [x] Define common object fields for pages, blocks, users, comments, data sources, databases, files, custom emojis.
 - [ ] Use `string` IDs.
 - [ ] Use pointer fields for nullable responses.
 - [ ] Use `omitempty` for optional request fields.
