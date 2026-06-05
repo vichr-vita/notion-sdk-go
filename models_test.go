@@ -68,6 +68,59 @@ func TestOptionalRequestFieldsOmitEmptyValues(t *testing.T) {
 	require.NotContains(t, string(data), `"link":null`)
 }
 
+func TestHelperConstructorsMarshalExpectedJSON(t *testing.T) {
+	body := struct {
+		Parent     Parent         `json:"parent"`
+		Properties map[string]any `json:"properties"`
+	}{
+		Parent: PageParent("page_a"),
+		Properties: map[string]any{
+			"Name":  Title("Task"),
+			"Notes": RichText("Ship it"),
+		},
+	}
+
+	data, err := json.Marshal(body)
+	require.NoError(t, err)
+	require.JSONEq(t, `{
+		"parent": {
+			"type": "page_id",
+			"page_id": "page_a"
+		},
+		"properties": {
+			"Name": {
+				"title": [
+					{
+						"type": "text",
+						"text": {
+							"content": "Task"
+						}
+					}
+				]
+			},
+			"Notes": {
+				"rich_text": [
+					{
+						"type": "text",
+						"text": {
+							"content": "Ship it"
+						}
+					}
+				]
+			}
+		}
+	}`, string(data))
+}
+
+func TestDataSourceParentMarshalExpectedJSON(t *testing.T) {
+	data, err := json.Marshal(DataSourceParent("ds_a"))
+	require.NoError(t, err)
+	require.JSONEq(t, `{
+		"type": "data_source_id",
+		"data_source_id": "ds_a"
+	}`, string(data))
+}
+
 func TestMajorModelsPreserveRawJSON(t *testing.T) {
 	tests := []struct {
 		name string

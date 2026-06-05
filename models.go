@@ -15,6 +15,36 @@ type Parent struct {
 	Workspace    *bool  `json:"workspace,omitempty"`
 }
 
+// TitleProperty is a page property value containing title rich text.
+type TitleProperty struct {
+	Title []RichTextObject `json:"title"`
+}
+
+// RichTextProperty is a page property value containing rich text.
+type RichTextProperty struct {
+	RichText []RichTextObject `json:"rich_text"`
+}
+
+// Title creates a title property value with one plain text object.
+func Title(content string) TitleProperty {
+	return TitleProperty{Title: []RichTextObject{plainRichText(content)}}
+}
+
+// RichText creates a rich text property value with one plain text object.
+func RichText(content string) RichTextProperty {
+	return RichTextProperty{RichText: []RichTextObject{plainRichText(content)}}
+}
+
+// PageParent creates a parent reference to a page.
+func PageParent(pageID string) Parent {
+	return Parent{Type: "page_id", PageID: pageID}
+}
+
+// DataSourceParent creates a parent reference to a data source.
+func DataSourceParent(dataSourceID string) Parent {
+	return Parent{Type: "data_source_id", DataSourceID: dataSourceID}
+}
+
 // User is a Notion user response object.
 type User struct {
 	Object    string          `json:"object"`
@@ -195,6 +225,13 @@ type Annotations struct {
 	Underline     bool   `json:"underline"`
 	Code          bool   `json:"code"`
 	Color         string `json:"color,omitempty"`
+}
+
+func plainRichText(content string) RichTextObject {
+	return RichTextObject{
+		Type: "text",
+		Text: &TextContent{Content: content},
+	}
 }
 
 func (u *User) UnmarshalJSON(data []byte) error {

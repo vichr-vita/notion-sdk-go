@@ -89,12 +89,12 @@
 - [x] Use `omitempty` for optional request fields.
 - [x] Preserve `json.RawMessage` on major models where useful.
 - [x] Add union-friendly discriminator fields.
-- [ ] Implement `Title(string)`.
-- [ ] Implement `RichText(string)`.
-- [ ] Implement `PageParent(string)`.
-- [ ] Implement `DataSourceParent(string)`.
-- [ ] Test helper JSON output.
-- [ ] Test raw JSON preservation.
+- [x] Implement `Title(string)`.
+- [x] Implement `RichText(string)`.
+- [x] Implement `PageParent(string)`.
+- [x] Implement `DataSourceParent(string)`.
+- [x] Test helper JSON output.
+- [x] Test raw JSON preservation.
 
 ## Milestone 7: Search Service
 
