@@ -74,7 +74,7 @@
 - [x] Support `start_cursor`.
 - [x] Support `page_size`.
 - [x] Support `has_more`.
-- [ ] Support `next_cursor`.
+- [x] Support `next_cursor`.
 - [ ] Implement iterator-style helpers for endpoint pages.
 - [ ] Optionally implement generic `All(ctx, firstPageFn)`.
 - [ ] Test manual pagination query fields.
