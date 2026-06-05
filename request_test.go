@@ -8,6 +8,7 @@ import (
 	"net/url"
 	"strings"
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/require"
 )
@@ -138,4 +139,147 @@ func TestDoRunsHooksWithRequestAndResponse(t *testing.T) {
 	require.NoError(t, client.do(req, nil))
 	require.True(t, requestHookCalled)
 	require.True(t, responseHookCalled)
+}
+
+func TestDoRetriesRetryableStatus(t *testing.T) {
+	attempts := 0
+	httpClient := &http.Client{Transport: roundTripFunc(func(req *http.Request) (*http.Response, error) {
+		attempts++
+		return &http.Response{
+			StatusCode: http.StatusServiceUnavailable,
+			Header:     make(http.Header),
+			Body:       io.NopCloser(strings.NewReader(`{"code":"service_unavailable","message":"try again"}`)),
+		}, nil
+	})}
+	client := NewClient(
+		"secret_test",
+		WithHTTPClient(httpClient),
+		WithRetryConfig(RetryConfig{MaxRetries: 2, Delay: time.Millisecond, MaxDelay: time.Millisecond, Jitter: -1}),
+	)
+	client.config.retrySleep = func(time.Duration) {}
+
+	req, err := client.newRequest(context.Background(), http.MethodGet, "search", nil, nil)
+	require.NoError(t, err)
+
+	err = client.do(req, nil)
+	require.Error(t, err)
+	require.Equal(t, 3, attempts)
+}
+
+func TestDoDoesNotRetryNonRetryableStatus(t *testing.T) {
+	attempts := 0
+	httpClient := &http.Client{Transport: roundTripFunc(func(req *http.Request) (*http.Response, error) {
+		attempts++
+		return &http.Response{
+			StatusCode: http.StatusBadRequest,
+			Header:     make(http.Header),
+			Body:       io.NopCloser(strings.NewReader(`{"code":"invalid_request","message":"bad request"}`)),
+		}, nil
+	})}
+	client := NewClient("secret_test", WithHTTPClient(httpClient))
+
+	req, err := client.newRequest(context.Background(), http.MethodGet, "search", nil, nil)
+	require.NoError(t, err)
+
+	err = client.do(req, nil)
+	require.Error(t, err)
+	require.Equal(t, 1, attempts)
+}
+
+func TestDoRetriesUntilSuccess(t *testing.T) {
+	attempts := 0
+	httpClient := &http.Client{Transport: roundTripFunc(func(req *http.Request) (*http.Response, error) {
+		attempts++
+		if attempts == 1 {
+			return &http.Response{
+				StatusCode: http.StatusBadGateway,
+				Header:     make(http.Header),
+				Body:       io.NopCloser(strings.NewReader(`temporary`)),
+			}, nil
+		}
+
+		return &http.Response{
+			StatusCode: http.StatusOK,
+			Header:     make(http.Header),
+			Body:       io.NopCloser(strings.NewReader(`{"object":"page","id":"page_a"}`)),
+		}, nil
+	})}
+	client := NewClient(
+		"secret_test",
+		WithHTTPClient(httpClient),
+		WithRetryConfig(RetryConfig{MaxRetries: 2, Delay: time.Millisecond, MaxDelay: time.Millisecond, Jitter: -1}),
+	)
+	client.config.retrySleep = func(time.Duration) {}
+
+	req, err := client.newRequest(context.Background(), http.MethodPost, "search", nil, map[string]any{"query": "Tasks"})
+	require.NoError(t, err)
+
+	var out struct {
+		Object string `json:"object"`
+		ID     string `json:"id"`
+	}
+	require.NoError(t, client.do(req, &out))
+	require.Equal(t, 2, attempts)
+	require.Equal(t, "page", out.Object)
+	require.Equal(t, "page_a", out.ID)
+}
+
+func TestDoHonorsRetryAfter(t *testing.T) {
+	attempts := 0
+	var sleeps []time.Duration
+	httpClient := &http.Client{Transport: roundTripFunc(func(req *http.Request) (*http.Response, error) {
+		attempts++
+		if attempts == 1 {
+			return &http.Response{
+				StatusCode: http.StatusTooManyRequests,
+				Header:     http.Header{"Retry-After": []string{"2"}},
+				Body:       io.NopCloser(strings.NewReader(`rate limited`)),
+			}, nil
+		}
+
+		return &http.Response{
+			StatusCode: http.StatusOK,
+			Header:     make(http.Header),
+			Body:       io.NopCloser(strings.NewReader(`{}`)),
+		}, nil
+	})}
+	client := NewClient("secret_test", WithHTTPClient(httpClient))
+	client.config.retrySleep = func(delay time.Duration) {
+		sleeps = append(sleeps, delay)
+	}
+
+	req, err := client.newRequest(context.Background(), http.MethodGet, "search", nil, nil)
+	require.NoError(t, err)
+
+	require.NoError(t, client.do(req, nil))
+	require.Equal(t, 2, attempts)
+	require.Equal(t, []time.Duration{2 * time.Second}, sleeps)
+}
+
+func TestDoDoesNotRetryNonReplayableBody(t *testing.T) {
+	attempts := 0
+	httpClient := &http.Client{Transport: roundTripFunc(func(req *http.Request) (*http.Response, error) {
+		attempts++
+		return &http.Response{
+			StatusCode: http.StatusServiceUnavailable,
+			Header:     make(http.Header),
+			Body:       io.NopCloser(strings.NewReader(`temporary`)),
+		}, nil
+	})}
+	client := NewClient("secret_test", WithHTTPClient(httpClient))
+	client.config.retrySleep = func(time.Duration) {
+		t.Fatal("retry sleep should not run")
+	}
+
+	req, err := http.NewRequestWithContext(
+		context.Background(),
+		http.MethodPost,
+		"https://api.notion.com/v1/search",
+		io.NopCloser(strings.NewReader(`{"query":"Tasks"}`)),
+	)
+	require.NoError(t, err)
+
+	err = client.do(req, nil)
+	require.Error(t, err)
+	require.Equal(t, 1, attempts)
 }

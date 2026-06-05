@@ -14,6 +14,7 @@ func TestNewClientDefaultConfig(t *testing.T) {
 	require.Equal(t, "https://api.notion.com/v1", client.config.baseURL)
 	require.Equal(t, "2026-03-11", client.config.version)
 	require.Same(t, http.DefaultClient, client.config.httpClient)
+	require.Equal(t, 2, client.config.retry.MaxRetries)
 
 	require.NotNil(t, client.Pages)
 	require.Same(t, client, client.Pages.client)
@@ -43,12 +44,16 @@ func TestNewClientOptionOverrides(t *testing.T) {
 		WithHTTPClient(httpClient),
 		WithBaseURL("https://notion.test/v1"),
 		WithVersion("2025-09-03"),
+		WithRetryConfig(RetryConfig{
+			MaxRetries: 4,
+		}),
 	)
 
 	require.Equal(t, "secret_test", client.config.token)
 	require.Equal(t, "https://notion.test/v1", client.config.baseURL)
 	require.Equal(t, "2025-09-03", client.config.version)
 	require.Same(t, httpClient, client.config.httpClient)
+	require.Equal(t, 4, client.config.retry.MaxRetries)
 }
 
 func TestNewClientIgnoresEmptyOptionValues(t *testing.T) {

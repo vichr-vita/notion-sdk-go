@@ -11,6 +11,7 @@ import (
 	"reflect"
 	"strconv"
 	"strings"
+	"time"
 )
 
 func (c *Client) newRequest(ctx context.Context, method, path string, query any, body any) (*http.Request, error) {
@@ -50,43 +51,171 @@ func (c *Client) newRequest(ctx context.Context, method, path string, query any,
 }
 
 func (c *Client) do(req *http.Request, out any) error {
-	if c.config.requestHook != nil {
-		if err := c.config.requestHook(req); err != nil {
+	for attempt := 0; ; attempt++ {
+		attemptReq, err := requestForAttempt(req, attempt)
+		if err != nil {
 			return err
+		}
+
+		if c.config.requestHook != nil {
+			if err := c.config.requestHook(attemptReq); err != nil {
+				return err
+			}
+		}
+
+		resp, err := c.config.httpClient.Do(attemptReq)
+		if err != nil {
+			return err
+		}
+
+		if c.config.responseHook != nil {
+			if err := c.config.responseHook(resp); err != nil {
+				resp.Body.Close()
+				return err
+			}
+		}
+
+		if c.shouldRetry(req, resp, attempt) {
+			delay := c.retryDelay(resp, attempt)
+			_, _ = io.Copy(io.Discard, resp.Body)
+			resp.Body.Close()
+			if err := c.sleepRetry(req.Context(), delay); err != nil {
+				return err
+			}
+			continue
+		}
+
+		defer resp.Body.Close()
+		data, err := io.ReadAll(resp.Body)
+		if err != nil {
+			return err
+		}
+
+		if resp.StatusCode < http.StatusOK || resp.StatusCode >= http.StatusMultipleChoices {
+			return newAPIError(resp, data)
+		}
+
+		if len(bytes.TrimSpace(data)) == 0 || out == nil {
+			return nil
+		}
+
+		if raw, ok := out.(*json.RawMessage); ok {
+			*raw = append((*raw)[:0], data...)
+			return nil
+		}
+
+		return json.Unmarshal(data, out)
+	}
+}
+
+func requestForAttempt(req *http.Request, attempt int) (*http.Request, error) {
+	if attempt == 0 {
+		return req, nil
+	}
+	if req.Body == nil || req.Body == http.NoBody {
+		return req.Clone(req.Context()), nil
+	}
+	if req.GetBody == nil {
+		return nil, fmt.Errorf("notion: cannot retry request with non-replayable body")
+	}
+
+	body, err := req.GetBody()
+	if err != nil {
+		return nil, err
+	}
+	next := req.Clone(req.Context())
+	next.Body = body
+	return next, nil
+}
+
+func (c *Client) shouldRetry(req *http.Request, resp *http.Response, attempt int) bool {
+	if attempt >= c.config.retry.MaxRetries {
+		return false
+	}
+	if req.Body != nil && req.Body != http.NoBody && req.GetBody == nil {
+		return false
+	}
+
+	switch resp.StatusCode {
+	case http.StatusTooManyRequests,
+		http.StatusInternalServerError,
+		http.StatusBadGateway,
+		http.StatusServiceUnavailable,
+		http.StatusGatewayTimeout:
+		return true
+	default:
+		return false
+	}
+}
+
+func (c *Client) retryDelay(resp *http.Response, attempt int) time.Duration {
+	if retryAfter := parseRetryAfter(resp.Header.Get("Retry-After")); retryAfter > 0 {
+		return retryAfter
+	}
+
+	retry := c.config.retry
+	delay := retry.Delay
+	for i := 0; i < attempt; i++ {
+		delay *= 2
+		if delay >= retry.MaxDelay {
+			delay = retry.MaxDelay
+			break
 		}
 	}
 
-	resp, err := c.config.httpClient.Do(req)
-	if err != nil {
-		return err
+	if retry.Jitter <= 0 {
+		return delay
 	}
-	defer resp.Body.Close()
 
-	if c.config.responseHook != nil {
-		if err := c.config.responseHook(resp); err != nil {
-			return err
+	jitter := retry.Jitter
+	if jitter > 1 {
+		jitter = 1
+	}
+	factor := 1 - jitter + (c.config.retryJitter() * 2 * jitter)
+	return time.Duration(float64(delay) * factor)
+}
+
+func parseRetryAfter(value string) time.Duration {
+	if value == "" {
+		return 0
+	}
+
+	if seconds, err := strconv.Atoi(value); err == nil {
+		if seconds <= 0 {
+			return 0
 		}
+		return time.Duration(seconds) * time.Second
 	}
 
-	data, err := io.ReadAll(resp.Body)
+	when, err := http.ParseTime(value)
 	if err != nil {
-		return err
+		return 0
 	}
-
-	if resp.StatusCode < http.StatusOK || resp.StatusCode >= http.StatusMultipleChoices {
-		return newAPIError(resp, data)
+	delay := time.Until(when)
+	if delay < 0 {
+		return 0
 	}
+	return delay
+}
 
-	if len(bytes.TrimSpace(data)) == 0 || out == nil {
+func (c *Client) sleepRetry(ctx context.Context, delay time.Duration) error {
+	if delay <= 0 {
 		return nil
 	}
-
-	if raw, ok := out.(*json.RawMessage); ok {
-		*raw = append((*raw)[:0], data...)
-		return nil
+	if c.config.retrySleep != nil {
+		c.config.retrySleep(delay)
+		return ctx.Err()
 	}
 
-	return json.Unmarshal(data, out)
+	timer := time.NewTimer(delay)
+	defer timer.Stop()
+
+	select {
+	case <-ctx.Done():
+		return ctx.Err()
+	case <-timer.C:
+		return nil
+	}
 }
 
 func (c *Client) endpoint(path string) (*url.URL, error) {

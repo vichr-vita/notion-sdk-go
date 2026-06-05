@@ -56,16 +56,16 @@
 
 ## Milestone 4: Retries
 
-- [ ] Add retry config with default max retries = `2`.
-- [ ] Retry `429`, `500`, `502`, `503`, `504`.
-- [ ] Honor `Retry-After`.
-- [ ] Add exponential backoff with jitter.
-- [ ] Add option to configure retry behavior.
-- [ ] Ensure non-replayable request bodies handled correctly.
-- [ ] Test retry count.
-- [ ] Test no retry for non-retryable status.
-- [ ] Test retry success after transient failure.
-- [ ] Test `Retry-After` handling.
+- [x] Add retry config with default max retries = `2`.
+- [x] Retry `429`, `500`, `502`, `503`, `504`.
+- [x] Honor `Retry-After`.
+- [x] Add exponential backoff with jitter.
+- [x] Add option to configure retry behavior.
+- [x] Ensure non-replayable request bodies handled correctly.
+- [x] Test retry count.
+- [x] Test no retry for non-retryable status.
+- [x] Test retry success after transient failure.
+- [x] Test `Retry-After` handling.
 
 ## Milestone 5: Pagination
 
