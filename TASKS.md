@@ -72,7 +72,7 @@
 - [x] Create `Pagination` request struct.
 - [x] Create generic paginated response shell.
 - [x] Support `start_cursor`.
-- [ ] Support `page_size`.
+- [x] Support `page_size`.
 - [ ] Support `has_more`.
 - [ ] Support `next_cursor`.
 - [ ] Implement iterator-style helpers for endpoint pages.
