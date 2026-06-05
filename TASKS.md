@@ -109,16 +109,16 @@
 
 ## Milestone 8: Blocks Service
 
-- [ ] Verify Blocks endpoints against Notion reference.
-- [ ] Add `Blocks.Get(ctx, blockID)`.
-- [ ] Add `Blocks.Update(ctx, blockID, request)`.
-- [ ] Add `Blocks.Delete(ctx, blockID)`.
-- [ ] Add `Blocks.ListChildren(ctx, blockID, *Pagination)`.
-- [ ] Add `Blocks.AppendChildren(ctx, blockID, request)`.
-- [ ] Add `Blocks.ForEachChild(ctx, blockID, *Pagination, func(Block) error)`.
-- [ ] Test each method path and HTTP verb.
-- [ ] Test children pagination.
-- [ ] Test update and append body encoding.
+- [x] Verify Blocks endpoints against Notion reference.
+- [x] Add `Blocks.Get(ctx, blockID)`.
+- [x] Add `Blocks.Update(ctx, blockID, request)`.
+- [x] Add `Blocks.Delete(ctx, blockID)`.
+- [x] Add `Blocks.ListChildren(ctx, blockID, *Pagination)`.
+- [x] Add `Blocks.AppendChildren(ctx, blockID, request)`.
+- [x] Add `Blocks.ForEachChild(ctx, blockID, *Pagination, func(Block) error)`.
+- [x] Test each method path and HTTP verb.
+- [x] Test children pagination.
+- [x] Test update and append body encoding.
 
 ## Milestone 9: Pages Service
 
