@@ -195,3 +195,91 @@ type Annotations struct {
 	Code          bool   `json:"code"`
 	Color         string `json:"color,omitempty"`
 }
+
+func (u *User) UnmarshalJSON(data []byte) error {
+	type userAlias User
+	var v userAlias
+	if err := unmarshalWithRaw(data, &v, &v.Raw); err != nil {
+		return err
+	}
+	*u = User(v)
+	return nil
+}
+
+func (p *Page) UnmarshalJSON(data []byte) error {
+	type pageAlias Page
+	var v pageAlias
+	if err := unmarshalWithRaw(data, &v, &v.Raw); err != nil {
+		return err
+	}
+	*p = Page(v)
+	return nil
+}
+
+func (b *Block) UnmarshalJSON(data []byte) error {
+	type blockAlias Block
+	var v blockAlias
+	if err := unmarshalWithRaw(data, &v, &v.Raw); err != nil {
+		return err
+	}
+	*b = Block(v)
+	return nil
+}
+
+func (c *Comment) UnmarshalJSON(data []byte) error {
+	type commentAlias Comment
+	var v commentAlias
+	if err := unmarshalWithRaw(data, &v, &v.Raw); err != nil {
+		return err
+	}
+	*c = Comment(v)
+	return nil
+}
+
+func (d *DataSource) UnmarshalJSON(data []byte) error {
+	type dataSourceAlias DataSource
+	var v dataSourceAlias
+	if err := unmarshalWithRaw(data, &v, &v.Raw); err != nil {
+		return err
+	}
+	*d = DataSource(v)
+	return nil
+}
+
+func (d *Database) UnmarshalJSON(data []byte) error {
+	type databaseAlias Database
+	var v databaseAlias
+	if err := unmarshalWithRaw(data, &v, &v.Raw); err != nil {
+		return err
+	}
+	*d = Database(v)
+	return nil
+}
+
+func (c *CustomEmoji) UnmarshalJSON(data []byte) error {
+	type customEmojiAlias CustomEmoji
+	var v customEmojiAlias
+	if err := unmarshalWithRaw(data, &v, &v.Raw); err != nil {
+		return err
+	}
+	*c = CustomEmoji(v)
+	return nil
+}
+
+func (r *RichTextObject) UnmarshalJSON(data []byte) error {
+	type richTextObjectAlias RichTextObject
+	var v richTextObjectAlias
+	if err := unmarshalWithRaw(data, &v, &v.Raw); err != nil {
+		return err
+	}
+	*r = RichTextObject(v)
+	return nil
+}
+
+func unmarshalWithRaw(data []byte, out any, raw *json.RawMessage) error {
+	if err := json.Unmarshal(data, out); err != nil {
+		return err
+	}
+	*raw = append((*raw)[:0], data...)
+	return nil
+}

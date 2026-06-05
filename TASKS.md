@@ -87,7 +87,7 @@
 - [x] Use `string` IDs.
 - [x] Use pointer fields for nullable responses.
 - [x] Use `omitempty` for optional request fields.
-- [ ] Preserve `json.RawMessage` on major models where useful.
+- [x] Preserve `json.RawMessage` on major models where useful.
 - [ ] Add union-friendly discriminator fields.
 - [ ] Implement `Title(string)`.
 - [ ] Implement `RichText(string)`.
