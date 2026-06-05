@@ -11,17 +11,17 @@
 
 ## Milestone 1: Client Core
 
-- [ ] Implement `NewClient(token string, opts ...Option) *Client`.
-- [ ] Add immutable shared client config.
-- [ ] Add services on client: `Pages`, `Blocks`, `DataSources`, `Databases`, `Search`, `Users`, `Comments`, `FileUploads`, `CustomEmojis`.
-- [ ] Implement `WithHTTPClient(*http.Client)`.
-- [ ] Implement `WithBaseURL(string)`.
-- [ ] Implement `WithVersion(string)`.
-- [ ] Default API version to `2026-03-11`.
-- [ ] Default HTTP client to `http.DefaultClient`.
-- [ ] Ensure client safe for concurrent use.
-- [ ] Test default config.
-- [ ] Test option overrides.
+- [x] Implement `NewClient(token string, opts ...Option) *Client`.
+- [x] Add immutable shared client config.
+- [x] Add services on client: `Pages`, `Blocks`, `DataSources`, `Databases`, `Search`, `Users`, `Comments`, `FileUploads`, `CustomEmojis`.
+- [x] Implement `WithHTTPClient(*http.Client)`.
+- [x] Implement `WithBaseURL(string)`.
+- [x] Implement `WithVersion(string)`.
+- [x] Default API version to `2026-03-11`.
+- [x] Default HTTP client to `http.DefaultClient`.
+- [x] Ensure client safe for concurrent use.
+- [x] Test default config.
+- [x] Test option overrides.
 
 ## Milestone 2: Request Pipeline
 
