@@ -75,11 +75,11 @@
 - [x] Support `page_size`.
 - [x] Support `has_more`.
 - [x] Support `next_cursor`.
-- [ ] Implement iterator-style helpers for endpoint pages.
+- [x] Implement iterator-style helpers for endpoint pages.
 - [ ] Optionally implement generic `All(ctx, firstPageFn)`.
-- [ ] Test manual pagination query fields.
-- [ ] Test iterator stops on `has_more=false`.
-- [ ] Test iterator returns callback error.
+- [x] Test manual pagination query fields.
+- [x] Test iterator stops on `has_more=false`.
+- [x] Test iterator returns callback error.
 
 ## Milestone 6: Common Models and Helpers
 

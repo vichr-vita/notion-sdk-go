@@ -3,6 +3,7 @@ package notion
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"net/http"
 	"testing"
 
@@ -68,4 +69,61 @@ func TestPaginatedResponseDecodesNullCursor(t *testing.T) {
 	require.False(t, resp.HasMore)
 	require.Nil(t, resp.NextCursor)
 	require.Empty(t, resp.Results)
+}
+
+func TestForEachPaginatedStopsOnHasMoreFalse(t *testing.T) {
+	cursorB := "cursor_b"
+	calls := 0
+	var seen []string
+
+	err := ForEachPaginated(context.Background(), &Pagination{PageSize: 2}, func(_ context.Context, pagination *Pagination) (*PaginatedResponse[string], error) {
+		calls++
+
+		switch calls {
+		case 1:
+			require.Equal(t, 2, pagination.PageSize)
+			require.Empty(t, pagination.StartCursor)
+			return &PaginatedResponse[string]{
+				Results:    []string{"a", "b"},
+				HasMore:    true,
+				NextCursor: &cursorB,
+			}, nil
+		case 2:
+			require.Equal(t, 2, pagination.PageSize)
+			require.Equal(t, "cursor_b", pagination.StartCursor)
+			return &PaginatedResponse[string]{
+				Results: []string{"c"},
+			}, nil
+		default:
+			t.Fatalf("unexpected page call %d", calls)
+			return nil, nil
+		}
+	}, func(value string) error {
+		seen = append(seen, value)
+		return nil
+	})
+
+	require.NoError(t, err)
+	require.Equal(t, 2, calls)
+	require.Equal(t, []string{"a", "b", "c"}, seen)
+}
+
+func TestForEachPaginatedReturnsCallbackError(t *testing.T) {
+	wantErr := errors.New("stop")
+	calls := 0
+
+	err := ForEachPaginated(context.Background(), nil, func(_ context.Context, _ *Pagination) (*PaginatedResponse[string], error) {
+		calls++
+		return &PaginatedResponse[string]{
+			Results: []string{"a", "b"},
+		}, nil
+	}, func(value string) error {
+		if value == "b" {
+			return wantErr
+		}
+		return nil
+	})
+
+	require.ErrorIs(t, err, wantErr)
+	require.Equal(t, 1, calls)
 }
