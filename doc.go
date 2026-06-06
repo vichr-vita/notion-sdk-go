@@ -69,4 +69,23 @@
 //	blocks, err := notion.All(ctx, func(ctx context.Context, p *notion.Pagination) (*notion.PaginatedResponse[notion.Block], error) {
 //		return client.Blocks.ListChildren(ctx, blockID, p)
 //	})
+//
+// Non-2xx API responses return *APIError. Use errors.As to inspect Notion's
+// structured error code, message, request ID, HTTP status, and body snippet.
+// Network and JSON decode failures remain normal Go errors.
+//
+//	page, err := client.Pages.Get(ctx, pageID)
+//	if err != nil {
+//		var apiErr *notion.APIError
+//		if errors.As(err, &apiErr) {
+//			log.Printf("notion status=%d code=%s request_id=%s: %s",
+//				apiErr.StatusCode,
+//				apiErr.Code,
+//				apiErr.RequestID,
+//				apiErr.Message,
+//			)
+//		}
+//		return err
+//	}
+//	_ = page
 package notion

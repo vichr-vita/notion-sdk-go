@@ -206,7 +206,7 @@
 - [x] Document auth and default version.
 - [x] Document config options.
 - [x] Document pagination patterns.
-- [ ] Document `APIError` handling.
+- [x] Document `APIError` handling.
 - [ ] Document retry defaults and options.
 - [ ] Document Data Sources vs Databases legacy split.
 - [ ] Document no OAuth/admin/webhook support in V0.
