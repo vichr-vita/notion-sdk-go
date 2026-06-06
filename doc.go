@@ -14,6 +14,20 @@
 // accept context.Context and return typed response structs with raw JSON fields
 // where Notion objects are intentionally flexible.
 //
+// Use DataSources for current Notion database-style content. Data source
+// methods cover retrieving, querying, creating, and updating data sources:
+//
+//	dataSource, err := client.DataSources.Get(ctx, dataSourceID)
+//	rows, err := client.DataSources.Query(ctx, dataSourceID, notion.QueryDataSourceRequest{
+//		PageSize: 100,
+//	})
+//
+// Databases is kept as a legacy compatibility surface for Notion database
+// container endpoints. It is separate from DataSources and does not silently
+// proxy or alias data source operations:
+//
+//	database, err := client.Databases.Get(ctx, databaseID)
+//
 // Authentication uses an internal integration token. Every request sends
 // Authorization: Bearer <token> and a Notion-Version header. The default
 // Notion API version is 2026-03-11:

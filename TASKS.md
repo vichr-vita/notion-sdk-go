@@ -208,7 +208,7 @@
 - [x] Document pagination patterns.
 - [x] Document `APIError` handling.
 - [x] Document retry defaults and options.
-- [ ] Document Data Sources vs Databases legacy split.
+- [x] Document Data Sources vs Databases legacy split.
 - [ ] Document no OAuth/admin/webhook support in V0.
 
 ## Milestone 18: Final Verification
