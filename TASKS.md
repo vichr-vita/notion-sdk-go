@@ -193,7 +193,7 @@
 ## Milestone 16: Examples
 
 - [x] Create `examples/search`.
-- [ ] Create `examples/page`.
+- [x] Create `examples/page`.
 - [ ] Create `examples/blocks`.
 - [ ] Read `NOTION_TOKEN`.
 - [ ] Use `client := notion.NewClient(token)`.
