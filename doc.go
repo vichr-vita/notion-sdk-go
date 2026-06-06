@@ -14,6 +14,10 @@
 // accept context.Context and return typed response structs with raw JSON fields
 // where Notion objects are intentionally flexible.
 //
+// V0 intentionally does not include OAuth flows, admin endpoints, managed users,
+// webhook receiver helpers, webhook event models, legal holds, exports, or view
+// APIs. Use an internal integration token with workspace-granted access.
+//
 // Use DataSources for current Notion database-style content. Data source
 // methods cover retrieving, querying, creating, and updating data sources:
 //

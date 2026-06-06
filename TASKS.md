@@ -209,7 +209,7 @@
 - [x] Document `APIError` handling.
 - [x] Document retry defaults and options.
 - [x] Document Data Sources vs Databases legacy split.
-- [ ] Document no OAuth/admin/webhook support in V0.
+- [x] Document no OAuth/admin/webhook support in V0.
 
 ## Milestone 18: Final Verification
 
