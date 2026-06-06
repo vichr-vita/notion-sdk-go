@@ -164,12 +164,12 @@
 
 ## Milestone 13: Comments Service
 
-- [ ] Verify Comments endpoints against Notion reference.
-- [ ] Add `Comments.List(ctx, request)`.
-- [ ] Add `Comments.Create(ctx, CreateCommentRequest)`.
-- [ ] Support page/block discussion targets from reference.
-- [ ] Test list query/body requirements.
-- [ ] Test create body encoding.
+- [x] Verify Comments endpoints against Notion reference.
+- [x] Add `Comments.List(ctx, request)`.
+- [x] Add `Comments.Create(ctx, CreateCommentRequest)`.
+- [x] Support page/block discussion targets from reference.
+- [x] Test list query/body requirements.
+- [x] Test create body encoding.
 
 ## Milestone 14: File Uploads Service
 

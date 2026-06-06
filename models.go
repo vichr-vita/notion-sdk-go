@@ -40,6 +40,11 @@ func PageParent(pageID string) Parent {
 	return Parent{Type: "page_id", PageID: pageID}
 }
 
+// BlockParent creates a parent reference to a block.
+func BlockParent(blockID string) Parent {
+	return Parent{Type: "block_id", BlockID: blockID}
+}
+
 // DataSourceParent creates a parent reference to a data source.
 func DataSourceParent(dataSourceID string) Parent {
 	return Parent{Type: "data_source_id", DataSourceID: dataSourceID}
@@ -106,15 +111,30 @@ type Block struct {
 
 // Comment is a Notion comment response object.
 type Comment struct {
-	Object         string           `json:"object"`
-	ID             string           `json:"id"`
-	Parent         *Parent          `json:"parent,omitempty"`
-	DiscussionID   string           `json:"discussion_id,omitempty"`
-	CreatedTime    time.Time        `json:"created_time"`
-	LastEditedTime *time.Time       `json:"last_edited_time"`
-	CreatedBy      *User            `json:"created_by,omitempty"`
-	RichText       []RichTextObject `json:"rich_text,omitempty"`
-	Raw            json.RawMessage  `json:"-"`
+	Object         string              `json:"object"`
+	ID             string              `json:"id"`
+	Parent         *Parent             `json:"parent,omitempty"`
+	DiscussionID   string              `json:"discussion_id,omitempty"`
+	CreatedTime    time.Time           `json:"created_time"`
+	LastEditedTime *time.Time          `json:"last_edited_time"`
+	CreatedBy      *User               `json:"created_by,omitempty"`
+	RichText       []RichTextObject    `json:"rich_text,omitempty"`
+	DisplayName    *CommentDisplayName `json:"display_name,omitempty"`
+	Attachments    []CommentAttachment `json:"attachments,omitempty"`
+	Raw            json.RawMessage     `json:"-"`
+}
+
+// CommentDisplayName is a resolved comment author display name.
+type CommentDisplayName struct {
+	Type         string          `json:"type,omitempty"`
+	ResolvedName string          `json:"resolved_name,omitempty"`
+	Raw          json.RawMessage `json:"-"`
+}
+
+// CommentAttachment is a file attachment on a comment.
+type CommentAttachment struct {
+	File File            `json:"file"`
+	Raw  json.RawMessage `json:"-"`
 }
 
 // DataSource is a Notion data source response object.
@@ -278,6 +298,26 @@ func (c *Comment) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*c = Comment(v)
+	return nil
+}
+
+func (d *CommentDisplayName) UnmarshalJSON(data []byte) error {
+	type commentDisplayNameAlias CommentDisplayName
+	var v commentDisplayNameAlias
+	if err := unmarshalWithRaw(data, &v, &v.Raw); err != nil {
+		return err
+	}
+	*d = CommentDisplayName(v)
+	return nil
+}
+
+func (a *CommentAttachment) UnmarshalJSON(data []byte) error {
+	type commentAttachmentAlias CommentAttachment
+	var v commentAttachmentAlias
+	if err := unmarshalWithRaw(data, &v, &v.Raw); err != nil {
+		return err
+	}
+	*a = CommentAttachment(v)
 	return nil
 }
 
