@@ -204,7 +204,7 @@
 
 - [x] Add package overview.
 - [x] Document auth and default version.
-- [ ] Document config options.
+- [x] Document config options.
 - [ ] Document pagination patterns.
 - [ ] Document `APIError` handling.
 - [ ] Document retry defaults and options.

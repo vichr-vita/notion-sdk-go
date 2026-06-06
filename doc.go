@@ -24,4 +24,19 @@
 // Notion-Version value:
 //
 //	client := notion.NewClient("secret_xxx", notion.WithVersion("2026-03-11"))
+//
+// Configuration uses functional options. WithHTTPClient supplies the
+// *http.Client used for all requests; use it for custom transports, proxies, or
+// client-wide timeouts. WithBaseURL changes the API root, which is useful for
+// tests or compatible gateways. WithRequestHook and WithResponseHook install
+// lightweight hooks for request inspection, logging, or test assertions.
+//
+//	client := notion.NewClient(
+//		"secret_xxx",
+//		notion.WithHTTPClient(httpClient),
+//		notion.WithBaseURL("https://api.notion.com/v1"),
+//		notion.WithRequestHook(func(req *http.Request) error {
+//			return nil
+//		}),
+//	)
 package notion
