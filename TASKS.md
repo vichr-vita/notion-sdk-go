@@ -213,9 +213,9 @@
 
 ## Milestone 18: Final Verification
 
-- [ ] Run `go test ./...`.
-- [ ] Run `go test -race ./...` if test runtime stays reasonable.
-- [ ] Run example compile checks.
-- [ ] Confirm no live Notion calls in default tests.
-- [ ] Confirm no generated SDK code required.
-- [ ] Confirm acceptance criteria from PRD pass.
+- [x] Run `go test ./...`.
+- [x] Run `go test -race ./...` if test runtime stays reasonable.
+- [x] Run example compile checks.
+- [x] Confirm no live Notion calls in default tests.
+- [x] Confirm no generated SDK code required.
+- [x] Confirm acceptance criteria from PRD pass.
