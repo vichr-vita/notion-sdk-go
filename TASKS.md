@@ -205,7 +205,7 @@
 - [x] Add package overview.
 - [x] Document auth and default version.
 - [x] Document config options.
-- [ ] Document pagination patterns.
+- [x] Document pagination patterns.
 - [ ] Document `APIError` handling.
 - [ ] Document retry defaults and options.
 - [ ] Document Data Sources vs Databases legacy split.

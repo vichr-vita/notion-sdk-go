@@ -39,4 +39,34 @@
 //			return nil
 //		}),
 //	)
+//
+// Paginated endpoints accept a *Pagination value for manual cursor control:
+//
+//	resp, err := client.Blocks.ListChildren(ctx, blockID, &notion.Pagination{
+//		PageSize: 100,
+//	})
+//	if err != nil {
+//		return err
+//	}
+//	if resp.HasMore && resp.NextCursor != nil {
+//		resp, err = client.Blocks.ListChildren(ctx, blockID, &notion.Pagination{
+//			StartCursor: *resp.NextCursor,
+//			PageSize:    100,
+//		})
+//	}
+//
+// Convenience helpers iterate through cursor-based responses. Service-specific
+// helpers, such as Blocks.ForEachChild, preserve endpoint-specific arguments:
+//
+//	err := client.Blocks.ForEachChild(ctx, blockID, &notion.Pagination{
+//		PageSize: 100,
+//	}, func(block notion.Block) error {
+//		return nil
+//	})
+//
+// Generic helpers are available for endpoints that return PaginatedResponse:
+//
+//	blocks, err := notion.All(ctx, func(ctx context.Context, p *notion.Pagination) (*notion.PaginatedResponse[notion.Block], error) {
+//		return client.Blocks.ListChildren(ctx, blockID, p)
+//	})
 package notion
