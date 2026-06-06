@@ -173,15 +173,15 @@
 
 ## Milestone 14: File Uploads Service
 
-- [ ] Verify File Upload endpoints against Notion reference.
-- [ ] Add `FileUploads.List(ctx, *Pagination)`.
-- [ ] Add `FileUploads.Create(ctx, CreateFileUploadRequest)`.
-- [ ] Add `FileUploads.Retrieve(ctx, fileUploadID)`.
-- [ ] Add `FileUploads.Send(ctx, fileUploadID, body)`.
-- [ ] Add `FileUploads.Complete(ctx, fileUploadID)`.
-- [ ] Decide minimal upload body abstraction from docs.
-- [ ] Test all paths and verbs.
-- [ ] Test send body handling.
+- [x] Verify File Upload endpoints against Notion reference.
+- [x] Add `FileUploads.List(ctx, *Pagination)`.
+- [x] Add `FileUploads.Create(ctx, CreateFileUploadRequest)`.
+- [x] Add `FileUploads.Retrieve(ctx, fileUploadID)`.
+- [x] Add `FileUploads.Send(ctx, fileUploadID, body)`.
+- [x] Add `FileUploads.Complete(ctx, fileUploadID)`.
+- [x] Decide minimal upload body abstraction from docs.
+- [x] Test all paths and verbs.
+- [x] Test send body handling.
 
 ## Milestone 15: Custom Emojis Service
 

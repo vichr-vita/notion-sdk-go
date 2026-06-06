@@ -180,9 +180,10 @@ type Database struct {
 
 // File is a Notion file-like object.
 type File struct {
-	Type     string        `json:"type,omitempty"`
-	File     *HostedFile   `json:"file,omitempty"`
-	External *ExternalFile `json:"external,omitempty"`
+	Type       string          `json:"type,omitempty"`
+	File       *HostedFile     `json:"file,omitempty"`
+	FileUpload *FileUploadFile `json:"file_upload,omitempty"`
+	External   *ExternalFile   `json:"external,omitempty"`
 }
 
 // HostedFile contains a Notion-hosted file URL and optional expiry.
@@ -194,6 +195,37 @@ type HostedFile struct {
 // ExternalFile contains an externally hosted file URL.
 type ExternalFile struct {
 	URL string `json:"url,omitempty"`
+}
+
+// FileUploadFile references a file uploaded through the File Upload API.
+type FileUploadFile struct {
+	ID string `json:"id,omitempty"`
+}
+
+// FileUpload is a Notion file upload response object.
+type FileUpload struct {
+	Object           string          `json:"object"`
+	ID               string          `json:"id"`
+	CreatedTime      time.Time       `json:"created_time"`
+	CreatedBy        *User           `json:"created_by,omitempty"`
+	LastEditedTime   time.Time       `json:"last_edited_time"`
+	InTrash          bool            `json:"in_trash"`
+	ExpiryTime       *time.Time      `json:"expiry_time"`
+	Status           string          `json:"status,omitempty"`
+	Filename         *string         `json:"filename"`
+	ContentType      *string         `json:"content_type"`
+	ContentLength    *int64          `json:"content_length"`
+	UploadURL        string          `json:"upload_url,omitempty"`
+	CompleteURL      string          `json:"complete_url,omitempty"`
+	FileImportResult json.RawMessage `json:"file_import_result,omitempty"`
+	NumberOfParts    *NumberOfParts  `json:"number_of_parts,omitempty"`
+	Raw              json.RawMessage `json:"-"`
+}
+
+// NumberOfParts tracks multi-part upload progress.
+type NumberOfParts struct {
+	Total int `json:"total,omitempty"`
+	Sent  int `json:"sent,omitempty"`
 }
 
 // Icon is a Notion icon object.
@@ -348,6 +380,16 @@ func (c *CustomEmoji) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*c = CustomEmoji(v)
+	return nil
+}
+
+func (f *FileUpload) UnmarshalJSON(data []byte) error {
+	type fileUploadAlias FileUpload
+	var v fileUploadAlias
+	if err := unmarshalWithRaw(data, &v, &v.Raw); err != nil {
+		return err
+	}
+	*f = FileUpload(v)
 	return nil
 }
 
