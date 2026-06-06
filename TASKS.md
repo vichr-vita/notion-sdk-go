@@ -185,10 +185,10 @@
 
 ## Milestone 15: Custom Emojis Service
 
-- [ ] Verify Custom Emojis endpoints against Notion reference.
-- [ ] Add list/retrieve methods supported by reference.
-- [ ] Model custom emoji response.
-- [ ] Test paths, query, response decoding.
+- [x] Verify Custom Emojis endpoints against Notion reference.
+- [x] Add list/retrieve methods supported by reference.
+- [x] Model custom emoji response.
+- [x] Test paths, query, response decoding.
 
 ## Milestone 16: Examples
 
