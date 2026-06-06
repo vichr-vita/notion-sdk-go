@@ -40,6 +40,18 @@
 //		}),
 //	)
 //
+// Transient API responses are retried by default. The client retries HTTP 429,
+// 500, 502, 503, and 504 responses up to two times, honors Retry-After when
+// Notion sends it, and otherwise uses exponential backoff with jitter. Override
+// this behavior with WithRetryConfig:
+//
+//	client := notion.NewClient("secret_xxx", notion.WithRetryConfig(notion.RetryConfig{
+//		MaxRetries: 4,
+//		Delay:      250 * time.Millisecond,
+//		MaxDelay:   2 * time.Second,
+//		Jitter:     0.1,
+//	}))
+//
 // Paginated endpoints accept a *Pagination value for manual cursor control:
 //
 //	resp, err := client.Blocks.ListChildren(ctx, blockID, &notion.Pagination{
