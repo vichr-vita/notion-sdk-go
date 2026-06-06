@@ -155,12 +155,12 @@
 
 ## Milestone 12: Users Service
 
-- [ ] Verify Users endpoints against Notion reference.
-- [ ] Add `Users.List(ctx, *Pagination)`.
-- [ ] Add `Users.Get(ctx, userID)`.
-- [ ] Add `Users.Me(ctx)`.
-- [ ] Test list pagination query.
-- [ ] Test get/me paths.
+- [x] Verify Users endpoints against Notion reference.
+- [x] Add `Users.List(ctx, *Pagination)`.
+- [x] Add `Users.Get(ctx, userID)`.
+- [x] Add `Users.Me(ctx)`.
+- [x] Test list pagination query.
+- [x] Test get/me paths.
 
 ## Milestone 13: Comments Service
 
