@@ -192,7 +192,7 @@
 
 ## Milestone 16: Examples
 
-- [ ] Create `examples/search`.
+- [x] Create `examples/search`.
 - [ ] Create `examples/page`.
 - [ ] Create `examples/blocks`.
 - [ ] Read `NOTION_TOKEN`.
