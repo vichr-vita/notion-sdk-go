@@ -197,7 +197,7 @@
 - [x] Create `examples/blocks`.
 - [x] Read `NOTION_TOKEN`.
 - [x] Use `client := notion.NewClient(token)`.
-- [ ] Prefer `DataSources` over `Databases` where relevant.
+- [x] Prefer `DataSources` over `Databases` where relevant.
 - [ ] Ensure examples compile.
 
 ## Milestone 17: Documentation
