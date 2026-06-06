@@ -202,7 +202,7 @@
 
 ## Milestone 17: Documentation
 
-- [ ] Add package overview.
+- [x] Add package overview.
 - [ ] Document auth and default version.
 - [ ] Document config options.
 - [ ] Document pagination patterns.
