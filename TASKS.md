@@ -196,7 +196,7 @@
 - [x] Create `examples/page`.
 - [x] Create `examples/blocks`.
 - [x] Read `NOTION_TOKEN`.
-- [ ] Use `client := notion.NewClient(token)`.
+- [x] Use `client := notion.NewClient(token)`.
 - [ ] Prefer `DataSources` over `Databases` where relevant.
 - [ ] Ensure examples compile.
 
