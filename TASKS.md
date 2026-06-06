@@ -194,7 +194,7 @@
 
 - [x] Create `examples/search`.
 - [x] Create `examples/page`.
-- [ ] Create `examples/blocks`.
+- [x] Create `examples/blocks`.
 - [ ] Read `NOTION_TOKEN`.
 - [ ] Use `client := notion.NewClient(token)`.
 - [ ] Prefer `DataSources` over `Databases` where relevant.
