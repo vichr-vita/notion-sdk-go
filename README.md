@@ -171,12 +171,6 @@ holds, exports, or view APIs.
 
 Use an internal integration token with workspace-granted access.
 
-## API reference generator
-
-`notion-api-reference/` contains the scraper and generated reference artifacts
-used while building the SDK. It stays in the public repository so the source
-mapping is auditable. Local raw HTML cache and dependency folders are ignored.
-
 ## Development
 
 ```bash
