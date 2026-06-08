@@ -15,6 +15,5 @@
 .idea/
 .vscode/
 
-# Notion API reference tooling
-notion-api-reference/node_modules/
-notion-api-reference/data/raw/
+# Local API reference tooling
+notion-api-reference/
