@@ -1,0 +1,20 @@
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+
+# Go
+/bin/
+/dist/
+/coverage.out
+/coverage.html
+*.test
+
+# Editors and OS
+.DS_Store
+.idea/
+.vscode/
+
+# Notion API reference tooling
+notion-api-reference/node_modules/
+notion-api-reference/data/raw/
